@@ -11,6 +11,9 @@
 #' ---
 #' <!--
 #' TODO:
+#' - add graphics, programming, functions and debugging 
+#' from  C:\home\Courses\R\Scripts\Day_3 
+#' - integrate
 #' -->
 #' 
 #' ## Part 1: Introduction
