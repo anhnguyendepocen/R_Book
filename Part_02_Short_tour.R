@@ -1,44 +1,103 @@
-#
-#  SCS 2011: Statistical Analysis and Programming with R
-#  September-October 2011
-#  
-#  Short tour of R
-#  Borrowing from Venables and Ripley (2002) Modern Applied Statistics with S, 4th ed., Springer
-#  http://www.stats.ox.ac.uk/pub/MASS4/
-#
-#
-# rm(m)
-
+#' ---
+#' title: "Short Tour of R"
+#' author: 
+#' - name: Georges Monette
+#'   affiliation: York University
+#' date: "`r format(Sys.time(), '%B %d, %Y at %H:%M')`"
+#' output:
+#'    html_document:
+#'      toc: true
+#'      toc_depth: 6
+#' ---
+#' <!--
+#' TODO: CONTINUE FIXING AFTER LINE 204
+#' -->
+#+ echo=FALSE
+library(knitr)
+# opts_chunk$set(comment=NA, fig.width=6, fig.height=6))
+opts_chunk$set(comment=NA)
+#' 
+#' This tour of R is inspired largely by the introduction to R in
+#' Venables and Ripley (2002) Modern Applied Statistics with S, 
+#' 4th ed., Springer [web site](http://www.stats.ox.ac.uk/pub/MASS4/)
+#'
+#' Objects like numbers in R come in vectors.  A single number
+#' is a vector of length 1. There are four basic modes for
+#' vectors: 
+#' 
+#' 1. logical: e.g. TRUE, FALSE, F, T, NA
+#' 2. numeric: 1, 2.1, ...
+#' 3. complex: 1 + 3.1i, 1i, ...
+#' 4. character: "this is character string"
+#' 
+#' ### Logical
+#' 
+TRUE
+TRUE + 2   # what happens here? This is an example of 'coercion'. 'TRUE' is coerced to the same mode as '2' before applying the addition operator
+FALSE
+FALSE + pi  # another example of coercion. 'pi' is a special symbol 
+TRUE & FALSE # the AND logical operator
+TRUE | FALSE # OR
+! TRUE  # '!' means NOT
+#'
+#' R uses 3-valued logic, including NA, i.e. 'missing', as a logical value --- with interesting results:
+#'
+TRUE & NA  # of course
+TRUE | NA  # think about this one!!
+#'
+#' It's easy to produce an operator table. For the '|' (OR) operator:
+outer(c(TRUE,FALSE,NA),c(TRUE,FALSE,NA), '|')
+#' The labels are not satisfying and we could have done this:
+#' 
+#' 1. Assign a vector to a name, using the 'c' (catenation) function:
+x <- c(TRUE,FALSE,NA)
+x
+#' 2. Give the vector names:
+names(x) <- c('TRUE','FALSE','NA') 
+x
+outer(x,x,'&')
+#' Question: What happens if I used
+names(x) <- x
+x
+outer(x,x,'&')
+#' 'x' was coerced to a character vector and the logical 'NA' 
+#' became '<NA>' to help distinguish it from the character vector
+#' 'NA', e.g. a code for North America or Namibia.
+#' 
+#' ### Numeric and complex
+#' 
 2 + 3
 sqrt(3/4)/(1/3 + 2/pi^2)
 factorial(5)
 sqrt(-1)       # square root of -1 (as a real number)
 sqrt(-1+0i)    # square root of -1 (as a complex number)
-
+#' R uses the extended reals including Inf, -Inf, NA and NaN (for not a number)
+#'  
 1/0
 0/0
 Inf/Inf
 Inf + Inf
 Inf - Inf
-TRUE
-TRUE + 2
-FALSE
-FALSE + 2
-
-
+-1/0
+(2-1i)/0  # 4 infinities!! In the complex plane there should only be one.
+#' 
+#' Loading some package we installed in the last chapter.
+#' 
 library(MASS)      # for special functions and data sets in MASS
-library(lattice)   # for graphics -- I almost always use this -- automatic load via spida.beta
-help.start()   # easy way to get overall help for packages
-library(spida.beta)
-library(p3d.beta)
-
-
+library(lattice)   # for graphics -- I almost always use this -- 
+library(spida2)
+library(p3d)
+#' 
+#' A data set in MASS
 chem      # a dataset in MASS
-?chem     # help
-mean
+?chem     # to get a description
+mean      # functions are 'objects' just like data
 ?mean
 mean(chem)
-m
+#+ warning=FALSE,echo=FALSE
+rm(m)
+#+ error=T
+m  # check to see if it's used
 m <- mean(chem)
 v <- var(chem)/length(chem)
 m/sqrt(v)
@@ -46,7 +105,9 @@ pnorm
 pt(m/sqrt(v),length(chem) -1)
 (1-pt(m/sqrt(v),length(chem) -1))*2    # p - value
 
-# How's it's done with linear models
+# Object oriented programming:
+# e.g. How linear models work
+#
 
 z <- lm(chem ~ 1)
 unclass(z)
@@ -167,32 +228,51 @@ rm(xy)
 #
 #  Interactive identification of points
 #
+#  and different ways of identifying variables in data frames  
+#
 
-head(Smoking)
-with( Smoking, plot(CigCon, LE))     # 'with' tells R where to find the variables CigCon, LE
+head(Smoking2)  # in p3d
+?Smoking2  # some data frames have help files
+Smoking2$LE   # fully qualified name
+with(Smoking2, LE)  # 'with' specifies environment in which 'LE' is found
+
+plot(Smoking2$Smoking, Smoking2$LE)
+with(Smoking2, plot(Smoking, LE))   # labels are nicer
+
 ?identify
-with( Smoking, identify(CigCon, LE, labels = Country))  # bug in RStudio, labels don't show up until end
-abline(lm(LE ~ CigCon, Smoking))     # we don't need with because 'lm' uses a formula interface
-with( Smoking, lines( supsmu(CigCon, LE ), col = 'blue', lwd =2))   # non-parametric fit
-with( Smoking, lines( supsmu(CigCon, LE, bass = 5 ), col = 'red', lwd =2))   # non-parametric fit
+with( Smoking2, identify(Smoking, LE, labels = Country))  # bug in RStudio, labels don't show up until end
+abline(lm(LE ~ Smoking, Smoking2))     # we don't need 'with' because 'lm' uses a formula interface
 
-lines(loess(LE ~ CigCon, Smoking))
-with( Smoking, lines(supsmu(Ci))
+windows()  # open a separate plotting device
+with( Smoking2, plot(Smoking, LE))    
+with( Smoking2, identify(Smoking, LE, labels = Country))  
+abline(lm(LE ~ Smoking, Smoking2))    
 
-td( pch = 16, cex = 3)
-xyplot( LE ~ CigCon, Smoking, groups = Cont, auto.key = T)
+with( Smoking2, lines( supsmu(Smoking, LE ), col = 'blue', lwd =2))   # non-parametric fit
+with( Smoking2, lines( supsmu(Smoking, LE, bass = 5 ), col = 'red', lwd =2))   # non-parametric fit
+
+# Lattice graphics
+
+library(lattice)
+library(spida2)
+gd( pch = 16, cex = 1) # in spida2
+xyplot( LE ~ Smoking, Smoking2, groups = Continent, auto.key = T)
+xyplot( LE ~ Smoking | Continent, Smoking2,  groups = cut(HE,5),auto.key = T)
+gd(5, cex = .8)
+xyplot( LE ~ Smoking | Continent, Smoking2,  groups = cut(HE,5),auto.key = T)
 
 #===================================================================
 # 
 #  Michelson Morley experiments on speed of light
 #  - "Speed" is speed in km/sec - 299,000  ("true" is 734.5)
 #
+# Example of using variables by 'attach'ing a data frame: highly discouraged
 
 attach(michelson)
 summary(michelson)
 search()
 
-plot.factor(Expt,Speed,
+plot(Expt,Speed,
 	main="Speed of light data",xlab="Experiment No.")
 
 abline(h=734.5)
@@ -215,37 +295,37 @@ rm(fm, fm0)
 #    and the estimation of conditional effects
 #
 
-library(p3d.beta)
+library(p3d)
 Init3d( family = 'serif',cex=1.2)
-some( Smoking )
-Plot3d( LE ~ CigCon + HealthExpPC | Continent, Smoking ,fov= 0, phi=0)
+
+Plot3d( LE ~ Smoking + HE | Continent, Smoking2 ,fov= 0, phi=0)
 
 Id3d(pad=1)
 
-Plot3d( LE ~ CigCon + HealthExpPC | Continent, subset(Smoking, Continent != "Africa") ,fov= 0, phi=0)
+Plot3d( LE ~ Smoking + HE | Continent, subset(Smoking2, Continent != "Africa") ,fov= 0, phi=0)
 
 Id3d(pad=1)
 Axes3d()
-Plot3d( LE ~ CigCon + HealthExpPC | Continent, Smoking ,fov= 0, phi=0)
+Plot3d( LE ~ Smoking + HE | Continent, Smoking2 ,fov= 0, phi=0)
 Id3d(pad=1)
-fitm <- lm( LE ~ CigCon , Smoking)
+fitm <- lm( LE ~ Smoking , Smoking2)
 summary( fitm )
 Fit3d(fitm)
 
-fit <- lm( LE ~ CigCon + HealthExpPC, Smoking)
+fit <- lm( LE ~ Smoking + HE, Smoking2)
 summary(fit)
 Fit3d( fit, col = 'green')
 Pop3d(2)
 
 # changing the model for the controlling variable changes the picture considerably
-fit2 <- lm( LE ~ CigCon + HealthExpPC + log(HealthExpPC), Smoking)
+fit2 <- lm( LE ~ Smoking + HE + log(HE), Smoking2)
 summary(fit2)
 Fit3d( fit2, col ='red')
 
-fit3 <- lm( LE ~ CigCon * (HealthExpPC + log(HealthExpPC)), Smoking)
+fit3 <- lm( LE ~ Smoking * (HE + log(HE)), Smoking2)
 summary(fit3)
 Fit3d( fit3, col ='blue')
-library(spida.beta)
+
 wald(fit3)
 
 # Linear hypothesis matrix and test of effect of CigCon | HE 

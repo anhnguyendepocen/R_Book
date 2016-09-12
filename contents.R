@@ -15,22 +15,24 @@
 #' from  C:\home\Courses\R\Scripts\Day_3 
 #' - integrate
 #' -->
+#'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   #' ## Part 1: Installing R and key packages
 #' 
-#' ## Part 1: Introduction
+#' 1. Getting Started: [R Notebook script](Part_01_Getting_Started.R) | [Output](Part_01_Getting_Started.html)
 #' 
+#' ## Part 2: Short Tour of R
 #' 
-#' ## Part 2: Installing R and key packages
+#' - Short tour of R: [R script](Part_02_Short_tour.R)
 #' 
+#' ## Appendix 1: Useful Recipes
 #' 
-#' ## Appendix 1: Future title
+#' - [Quick useful R recipes](http://capstone.stats.yorku.ca/index.php/R_Recipes)  (on our wiki so it's easy to add to them)
 #' 
 #' ## Appendix 2: Material in Progress
 #' 
-#' 1. [Quick useful R recipes](http://capstone.stats.yorku.ca/index.php/R_Recipes)  (on our wiki so it's easy to add to them)
+#' - [New material on R](http://capstone.stats.yorku.ca/index.php/R_Ideas)  (also on our wiki)
 #' 
-#' Add
-#' 1. Reading and merging spreadsheets ... .R
 #' <!--- TO ADD:
+#' 1. Reading and merging spreadsheets ... .R
 #' Comments on Assignment 2.R
 #' --->
 #'     
