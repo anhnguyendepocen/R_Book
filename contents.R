@@ -25,11 +25,11 @@
 #' 
 #' ## Appendix 1: Useful Recipes
 #' 
-#' - [Quick useful R recipes](http://capstone.stats.yorku.ca/index.php/R_Recipes)  (on our wiki so it's easy to add to them)
+#' - [Quick useful R recipes](http://practicum.stats.yorku.ca/index.php/R_Recipes)  (on our wiki so it's easy to add to them)
 #' 
 #' ## Appendix 2: Material in Progress
 #' 
-#' - [New material on R](http://capstone.stats.yorku.ca/index.php/R_Ideas)  (also on our wiki)
+#' - [New material on R](http://practicum.stats.yorku.ca/index.php/R_Ideas)  (also on our wiki)
 #' 
 #' <!--- TO ADD:
 #' 1. Reading and merging spreadsheets ... .R
